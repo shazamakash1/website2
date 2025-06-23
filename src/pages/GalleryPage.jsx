@@ -2,24 +2,13 @@
 
 import React, { useState } from "react";
 
-import CampusLife from "../assets/campusLife.webp";
-import ScienceLab from "../assets/ScienceLab.webp";
-import Library from "../assets/Library.webp";
-import SportsDay from "../assets/SportsDay.webp";
-import ArtClass from "../assets/ArtClasss.webp";
-import Graduation from "../assets/Graduation.webp";
+import galleryImages from "../data/mockData"; // Assuming you have a galleryImages.js file exporting an array of image objects
+
 
 const GalleryPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const galleryImages = [
-    { src: CampusLife, alt: 'Campus Life' },
-    { src: ScienceLab, alt: 'Science Lab' },
-    { src: Library, alt: 'Library' },
-    { src: SportsDay, alt: 'Sports Day' },
-    { src: ArtClass, alt: 'Art Class' },
-    { src: Graduation, alt: 'Graduation' },
-  ];
+ 
 
   return (
     <div className="py-20 bg-slate-100 animate-fade-in-up">

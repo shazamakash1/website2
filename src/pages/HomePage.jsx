@@ -1,28 +1,41 @@
 // ================================================================================
 // | FILE: src/pages/HomePage.jsx (Corrected Layout)
 // ================================================================================
-import { ArrowRight, BookOpen, Users, Award, Bell, Download, Calendar } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Users,
+  Award,
+  Bell,
+  Download,
+  Calendar,
+} from "lucide-react";
 import { useInterval } from "../hooks/useInterval"; // In your local file
 import React, { useState } from "react";
 import HeroImage from "../assets/banner.webp"; // In your local file
+import { a } from "framer-motion/client";
+
+import { notices } from "../data/mockData";
 
 // In a real app, this data would come from ../data/mockData.js
-const notices = [
-  {
-    id: 1,
-    title: "Annual Sports Day Registration",
-    date: "2025-07-15",
-    content: "Registrations for the annual sports day are now open. All students are encouraged to participate.",
-    fileUrl: "/downloads/sports-day-circular.pdf", // Added for download functionality
-  },
-  {
-    id: 2,
-    title: "Science Exhibition Submission Deadline",
-    date: "2025-07-20",
-    content: "The deadline for submitting projects for the science exhibition is approaching. Submit your projects soon!",
-    fileUrl: "/downloads/science-exhibition-guidelines.pdf", // Added for download functionality
-  },
-];
+// const notices = [
+//   {
+//     id: 1,
+//     title: "Annual Sports Day Registration",
+//     date: "2025-07-15",
+//     content:
+//       "Registrations for the annual sports day are now open. All students are encouraged to participate.",
+//     fileUrl: "/downloads/sports-day-circular.pdf", // Added for download functionality
+//   },
+//   {
+//     id: 2,
+//     title: "Science Exhibition Submission Deadline",
+//     date: "2025-07-20",
+//     content:
+//       "The deadline for submitting projects for the science exhibition is approaching. Submit your projects soon!",
+//     fileUrl: "/downloads/science-exhibition-guidelines.pdf", // Added for download functionality
+//   },
+// ];
 
 const events = [
   {
@@ -37,7 +50,7 @@ const events = [
     date: "August 12, 2025",
     description: "An introductory workshop on programming fundamentals.",
   },
-   {
+  {
     id: 3,
     title: "Annual Day Celebrations",
     date: "August 25, 2025",
@@ -45,12 +58,42 @@ const events = [
   },
 ];
 
-
 const HomePage = ({ navigateTo }) => {
   const [currentNotice, setCurrentNotice] = useState(0);
   useInterval(() => {
     setCurrentNotice((prev) => (prev + 1) % notices.length);
   }, 5000);
+
+  const handleNoticeDownload = (notice) => {
+    if (window.jspdf) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setProperties({ title: notice.title });
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(18);
+      doc.text("Springdale Public School", 20, 20);
+      doc.setDrawColor(245, 158, 11);
+      doc.line(20, 23, 190, 23);
+      doc.setFontSize(16);
+      doc.text(notice.title, 20, 35);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.setTextColor(100, 115, 132);
+      doc.text(`Date: ${notice.date}`, 20, 42);
+      doc.setFontSize(12);
+      doc.setTextColor(51, 65, 85);
+      const contentLines = doc.splitTextToSize(notice.content, 170);
+      doc.text(contentLines, 20, 55);
+
+      // Download the PDF with a sanitized filename
+      const filename = `Notice-${notice.title
+        .replace(/[^a-z0-9]/gi, "_")
+        .toLowerCase()}.pdf`;
+      doc.save(filename);
+    }else{
+      alert("PDF generation library is not available. Please try again later.");
+    }
+  };
 
   return (
     <div className="animate-fade-in-up">
@@ -84,7 +127,6 @@ const HomePage = ({ navigateTo }) => {
       <div className="bg-white py-20">
         {/* MODIFIED: Changed lg:grid-cols-2 to md:grid-cols-2 to show columns on smaller screens */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-start">
-          
           {/* Section 1: Latest News (Carousel with Download) */}
           <div className="w-full">
             <div className="text-center mb-12">
@@ -99,7 +141,8 @@ const HomePage = ({ navigateTo }) => {
                   <a
                     key={notice.id}
                     href={notice.fileUrl}
-                    download
+                    // download
+                    onClick={() => handleNoticeDownload(notice)}
                     className={`absolute w-full transition-all duration-500 ease-in-out group cursor-pointer p-2 -m-2 rounded-lg hover:bg-slate-200/50 ${
                       index === currentNotice
                         ? "opacity-100 translate-y-0"
@@ -133,7 +176,10 @@ const HomePage = ({ navigateTo }) => {
                 {notices.map((_, index) => (
                   <button
                     key={index}
-                    onClick={(e) => { e.stopPropagation(); setCurrentNotice(index); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentNotice(index);
+                    }}
                     className={`w-2 h-2 rounded-full transition-colors ${
                       index === currentNotice
                         ? "bg-amber-500"
@@ -148,45 +194,46 @@ const HomePage = ({ navigateTo }) => {
           {/* Section 2: Upcoming Events */}
           {/* MODIFIED: Changed lg:mt-0 to md:mt-0 to match the new grid breakpoint */}
           <div className="w-full mt-16 md:mt-0">
-             <div className="text-center mb-12">
-              <h3 className="text-4xl font-bold text-slate-800">Upcoming Events</h3>
+            <div className="text-center mb-12">
+              <h3 className="text-4xl font-bold text-slate-800">
+                Upcoming Events
+              </h3>
               <p className="mt-4 text-lg text-slate-600">
                 Mark your calendars for these exciting events.
               </p>
             </div>
             <div className="bg-slate-50 rounded-xl shadow-lg p-8">
-                <ul className="space-y-6">
-                  {events.map(event => (
-                    <li key={event.id} className="flex items-start group">
-                       <div className="flex-shrink-0">
-                        <div className="h-12 w-12 rounded-full bg-slate-800 text-white flex items-center justify-center">
-                          <Calendar size={24} />
-                        </div>
+              <ul className="space-y-6">
+                {events.map((event) => (
+                  <li key={event.id} className="flex items-start group">
+                    <div className="flex-shrink-0">
+                      <div className="h-12 w-12 rounded-full bg-slate-800 text-white flex items-center justify-center">
+                        <Calendar size={24} />
                       </div>
-                       <div className="ml-4">
-                        <h4 className="text-lg font-semibold text-slate-900 group-hover:text-amber-600 transition-colors">
-                          {event.title}
-                        </h4>
-                        <p className="text-sm text-slate-500">{event.date}</p>
-                        <p className="mt-1 text-slate-700">{event.description}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                 <button
-                    onClick={() => navigateTo("notices")}
-                    className="mt-8 bg-slate-800 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-slate-700 transition-all duration-300 transform hover:scale-105 flex items-center mx-auto"
-                  >
-                    View All Events
-                  </button>
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="text-lg font-semibold text-slate-900 group-hover:text-amber-600 transition-colors">
+                        {event.title}
+                      </h4>
+                      <p className="text-sm text-slate-500">{event.date}</p>
+                      <p className="mt-1 text-slate-700">{event.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <button
+                onClick={() => navigateTo("notices")}
+                className="mt-8 bg-slate-800 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-slate-700 transition-all duration-300 transform hover:scale-105 flex items-center mx-auto"
+              >
+                View All Events
+              </button>
             </div>
           </div>
-
         </div>
       </div>
 
       {/* ... Why Choose Springdale Section (unchanged) ... */}
-       <div className="py-20 bg-slate-100">
+      <div className="py-20 bg-slate-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h3 className="text-4xl font-bold text-slate-800">
