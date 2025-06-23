@@ -1,0 +1,8 @@
+const LoginPage = ({ userType, handleLogin }) => (
+    <div className="min-h-[70vh] flex items-center justify-center bg-slate-100 py-12 px-4 sm:px-6 lg:px-8"><div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-2xl animate-fade-in-up"><div><h2 className="text-center text-3xl font-extrabold text-slate-900">{userType.charAt(0).toUpperCase() + userType.slice(1)} Portal</h2><p className="mt-2 text-center text-sm text-slate-600">Welcome back! Please sign in.</p></div><form className="mt-8 space-y-6" onSubmit={(e) => { e.preventDefault(); handleLogin(userType); }}>
+        <div className="space-y-4"><div><label htmlFor="username" className="sr-only">Username</label><input id="username" name="username" type="text" required className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 transition-colors" placeholder="Username" /></div><div><label htmlFor="password" className="sr-only">Password</label><input id="password" name="password" type="password" required className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 transition-colors" placeholder="Password" /></div></div>
+        <div><button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent font-medium rounded-md text-slate-900 bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all transform hover:scale-105">Sign in</button></div>
+    </form></div></div>
+);
+
+export default LoginPage; // This would be uncommented in your local file
