@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import galleryImages from "../data/mockData"; // Assuming you have a galleryImages.js file exporting an array of image objects
+import {galleryImages} from "../data/mockData"; // Assuming you have a galleryImages.js file exporting an array of image objects
 
 
 const GalleryPage = () => {

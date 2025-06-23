@@ -15,48 +15,8 @@ import React, { useState } from "react";
 import HeroImage from "../assets/banner.webp"; // In your local file
 import { a } from "framer-motion/client";
 
-import { notices } from "../data/mockData";
+import { notices, events } from "../data/mockData";
 
-// In a real app, this data would come from ../data/mockData.js
-// const notices = [
-//   {
-//     id: 1,
-//     title: "Annual Sports Day Registration",
-//     date: "2025-07-15",
-//     content:
-//       "Registrations for the annual sports day are now open. All students are encouraged to participate.",
-//     fileUrl: "/downloads/sports-day-circular.pdf", // Added for download functionality
-//   },
-//   {
-//     id: 2,
-//     title: "Science Exhibition Submission Deadline",
-//     date: "2025-07-20",
-//     content:
-//       "The deadline for submitting projects for the science exhibition is approaching. Submit your projects soon!",
-//     fileUrl: "/downloads/science-exhibition-guidelines.pdf", // Added for download functionality
-//   },
-// ];
-
-const events = [
-  {
-    id: 1,
-    title: "Parent-Teacher Conference",
-    date: "August 5, 2025",
-    description: "Discuss your child's progress with their teachers.",
-  },
-  {
-    id: 2,
-    title: "Workshop: Coding for Beginners",
-    date: "August 12, 2025",
-    description: "An introductory workshop on programming fundamentals.",
-  },
-  {
-    id: 3,
-    title: "Annual Day Celebrations",
-    date: "August 25, 2025",
-    description: "Join us for a day of performances and celebration.",
-  },
-];
 
 const HomePage = ({ navigateTo }) => {
   const [currentNotice, setCurrentNotice] = useState(0);

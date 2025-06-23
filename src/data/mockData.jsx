@@ -21,6 +21,27 @@ export const notices = [
   { id: 4, title: 'Holiday Declaration', date: '2024-08-01', content: 'The school will remain closed on account of Independence Day celebrations. We encourage all students to celebrate this historic day with patriotism and pride.' },
 ];
 
+export const events = [
+  {
+    id: 1,
+    title: "Parent-Teacher Conference",
+    date: "August 5, 2025",
+    description: "Discuss your child's progress with their teachers.",
+  },
+  {
+    id: 2,
+    title: "Workshop: Coding for Beginners",
+    date: "August 12, 2025",
+    description: "An introductory workshop on programming fundamentals.",
+  },
+  {
+    id: 3,
+    title: "Annual Day Celebrations",
+    date: "August 25, 2025",
+    description: "Join us for a day of performances and celebration.",
+  },
+];
+
 export const studentData = {
   name: 'Alex Doe',
   studentId: 'S12345',
